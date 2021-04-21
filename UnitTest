@@ -1,0 +1,75 @@
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+
+namespace UnitTestProject2
+{
+    [TestClass]
+    public class UnitTest1
+    {
+        [TestMethod]
+        public void CheckIfICanBuytheProduct()
+        {
+            IWebDriver browser = new ChromeDriver();
+            //CreateAccountPage createAccountPage = new CreateAccountPage(browser);
+            //Open DOMO website 
+           // browser.Navigate().GoToUrl("https://www.domo.ro/");
+            browser.Navigate().GoToUrl("https://www.domo.ro/index.php?main_page=login");
+
+            //Locate Elements from LogIn
+            IWebElement email = browser.FindElement(By.Id("email_address"));
+            IWebElement password = browser.FindElement(By.Name("passwordx"));
+            IWebElement LogInBtn = browser.FindElement(By.CssSelector("[class='btn btn-special']"));
+
+            //Add data
+            email.SendKeys(text: "bianca.dediu21@yahoo.com");
+            password.SendKeys(text: "Gspo");
+            LogInBtn.Click();
+
+
+           
+            //Locate SearchBox
+            IWebElement SearchBox = browser.FindElement(By.Id("keyword"));
+            SearchBox.SendKeys("Laptop");
+
+
+           
+            IWebElement searchBtn = browser.FindElement(By.Id("quick_find"));
+            searchBtn.Submit();
+
+            IWebElement firstProduct= browser.FindElement(By.CssSelector("[class='product_data productListing-tot ']"));
+            firstProduct.Click();
+        
+            
+            IWebElement addToCart = browser.FindElement(By.Id("main-add-to-cart"));
+            addToCart.Submit();
+
+
+            //IWebElement Numerar =  browser.FindElement(By.CssSelector("[class='fara_bord']"));
+
+            IJavaScriptExecutor js = (IJavaScriptExecutor)browser;
+            browser.Manage().Window.Maximize();
+            js.ExecuteScript("window.scrollBy(0,1000)");
+            IWebElement Numerar = browser.FindElement(By.Id("plata1"));
+             Numerar.Click();
+           // browser.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(5);
+            IWebElement Termeni = browser.FindElement(By.Name("read_retur"));
+            Termeni.Click();
+
+            //IWebElement Numerar = browser.FindElement(By.CssSelector("input[id='plata1']"));
+            //Numerar.Click();
+            
+
+            IWebElement shopProduct = browser.FindElement(By.CssSelector("[class='btn btn-special btnTrimiteComanda']"));
+            shopProduct.Submit();
+
+            //Check if we have the correct result
+            //laptopTitle = browser.FindElement(By.CssSelector("[pid_prod='1765514']")).Text;
+            //Assert.IsTrue(condition: laptopTitle.Contains("Laptop Gaming ASUS TUF FX505DU AMD Ryzen 7 3750H"));
+
+            //Close browser
+            //browser.Close();
+        }
+    }
+}
